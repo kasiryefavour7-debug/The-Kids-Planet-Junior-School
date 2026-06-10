@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planet Junior School – Mukono</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ── CSS VARIABLES ─────────────────────────────────── */
+    :root {
+      --sky:        #38bdf8;
+      --sky-dark:   #0284c7;
+      --sky-light:  #e0f7ff;
+      --green:      #4ade80;
+      --green-dark: #16a34a;
+      --purple:     #a855f7;
+      --sun:        #f59e0b;
+      --red:        #ef4444;
+      --coral:      #ff6b6b;
+      --mint:       #6ee7b7;
+      --lemon:      #fde68a;
+      --bg:         #f0f9ff;
+      --surface:    #ffffff;
+      --text:       #0f172a;
+      --text-muted: #64748b;
+      --radius:     18px;
+      --radius-sm:  12px;
+      --card-shadow: 0 4px 24px rgba(2,132,199,0.10);
+      --card-shadow-lg: 0 8px 40px rgba(2,132,199,0.18);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    h1,h2,h3,h4 { font-family: 'Baloo 2', sans-serif; line-height: 1.2; }
+    p { line-height: 1.75; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; font-family: 'Nunito', sans-serif; }
+    input, select, textarea {
+      font-family: 'Nunito', sans-serif;
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      transition: border-color .2s, box-shadow .2s;
+      background: white;
+      color: var(--text);
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--sky-dark);
+      box-shadow: 0 0 0 4px rgba(2,132,199,0.12);
+    }
+    textarea { resize: vertical; min-height: 100px; }
+    label { font-weight: 700; font-size: 14px; display: block; margin-bottom: 6px; color: #334155; }
+    hr { border: none; border-top: 1.5px solid #e2e8f0; margin: 24px 0; }
+
+    /* ── LAYOUT ────────────────────────────────────────── */
+    .section { padding: 72px 24px; }
+    .section-alt { background: #f8faff; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 48px; }
+    .section-eyebrow {
+      display: inline-block;
+      background: var(--sky-light);
+      color: var(--sky-dark);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 14px;
+    }
+    .section-title { font-size: clamp(26px,4vw,40px); font-weight: 800; margin-bottom: 14px; }
+    .section-sub { color: var(--text-muted); font-size: 17px; max-width: 560px; margin: 0 auto; }
+    .text-center { text-align: center; }
+    .mt-8 { margin-top: 32px; }
+
+    /* ── NAVBAR ────────────────────────────────────────── */
+    #navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 2px solid #e0f7ff;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      box-shadow: 0 2px 16px rgba(2,132,199,0.07);
+    }
+    .nav-logo {
+      font-family: 'Baloo 2', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--sky-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .nav-logo span { color: var(--green-dark); }
+    .nav-links { display: flex; gap: 4px; }
+    .nav-link {
+      background: none;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: background .2s, color .2s;
+    }
+    .nav-link:hover, .nav-link.active {
+      background: var(--sky-light);
+      color: var(--sky-dark);
+    }
+    .nav-cta {
+      background: var(--sky-dark);
+      color: white;
+      border: none;
+      padding: 9px 20px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 800;
+      transition: background .2s, transform .15s;
+    }
+    .nav-cta:hover { background: #0369a1; transform: translateY(-1px); }
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 26px;
+      color: var(--sky-dark);
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: white;
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu .nav-link { font-size: 20px; padding: 12px 32px; }
+    .mobile-close {
+      position: absolute;
+      top: 20px; right: 24px;
+      background: none; border: none;
+      font-size: 32px; color: var(--sky-dark);
+    }
+    .hero {
+      background: linear-gradient(135deg, #e0f7ff 0%, #f0ffe8 60%, #fffbe6 100%);
+      padding: 80px 24px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(56,189,248,0.18) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -60px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(74,222,128,0.14) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: white;
+      border: 2px solid var(--sky);
+      color: var(--sky-dark);
+      font-size: 13px;
+      font-weight: 800;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(56,189,248,0.15);
+      animation: fadeUp .6s ease both;
+    }
+    .hero-text h1 {
+      font-size: clamp(32px, 5vw, 58px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      animation: fadeUp .7s .1s ease both;
+    }
+    .hero-text h1 span {
+      background: linear-gradient(135deg, var(--sky-dark), var(--green-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-text > p {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 36px;
+      animation: fadeUp .7s .2s ease both;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      animation: fadeUp .7s .3s ease both;
+    }
+    .btn-hero-primary {
+      background: linear-gradient(135deg, var(--sky-dark), #0369a1);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 100px;
+      font-size: 15px;
+      font-weight: 800;
+      box-shadow: 0 4px 18px rgba(2,132,199,0.3);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(2,132,199,0.35); }
+    .btn-hero-secondary {
+      background: white;
+      color: var(--sky-dark);
+      border: 2px solid var(--sky);
+      padding: 13px 28px;
+      border-radius: 100px;
+      font-size: 15px;
+      font-weight: 800;
+      transition: transform .15s, background .2s;
+    }
+    .btn-hero-secondary:hover { transform: translateY(-2px); background: var(--sky-light); }
+    .hero-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: fadeUp .7s .4s ease both;
+    }
+    .hero-stat-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      box-shadow: var(--card-shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: transform .2s;
+    }
+    .hero-stat-card:hover { transform: translateY(-3px); }
+    .hero-stat-card .num {
+      font-family: 'Baloo 2', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--sky-dark);
+      line-height: 1;
+    }
+    .hero-stat-card .lbl { font-size: 14px; font-weight: 700; color: var(--text-muted); }
+    .hero-stat-card.trophy {
+      background: linear-gradient(135deg, #fffbe6, #fde68a);
+      border: 2px solid #f59e0b;
+    }
+    .hero-stat-card.trophy .num { font-size: 22px; color: #92400e; }
+
+    /* ── WHY GRID ──────────────────────────────────────── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .why-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      box-shadow: var(--card-shadow);
+      transition: transform .2s, box-shadow .2s;
+      border-top: 4px solid var(--sky);
+    }
+    .why-card:nth-child(2) { border-top-color: var(--green); }
+    .why-card:nth-child(3) { border-top-color: var(--coral); }
+    .why-card:nth-child(4) { border-top-color: var(--purple); }
+    .why-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-lg); }
+    .why-icon { font-size: 40px; margin-bottom: 14px; }
+    .why-title { font-family: 'Baloo 2', sans-serif; font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+    .why-text { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .news-card {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .news-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-lg); }
+    .news-img {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      background: linear-gradient(135deg, #e0f7ff, #b3ecff);
+    }
+    .news-body { padding: 20px; }
+    .news-cat {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      background: var(--sky-light);
+      color: var(--sky-dark);
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 10px;
+    }
+    .news-title { font-family: 'Baloo 2', sans-serif; font-size: 17px; font-weight: 800; margin-bottom: 8px; line-height: 1.3; }
+    .news-excerpt { font-size: 14px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.6; }
+    .news-meta { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--text-muted); }
+    .read-more { color: var(--sky-dark); font-weight: 700; cursor: pointer; }
+    .read-more:hover { text-decoration: underline; }
+
+    .events-list { display: flex; flex-direction: column; gap: 16px; }
+    .event-item {
+      background: white;
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      box-shadow: var(--card-shadow);
+      transition: transform .2s;
+      border-left: 5px solid var(--sky);
+    }
+    .event-item:hover { transform: translateX(4px); }
+    .event-date-badge {
+      background: linear-gradient(135deg, var(--sky-dark), #0369a1);
+      color: white;
+      border-radius: 12px;
+      min-width: 56px;
+      padding: 8px 10px;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(2,132,199,0.25);
+    }
+    .event-date-badge .day { font-size: 26px; font-weight: 800; font-family: 'Baloo 2', sans-serif; line-height: 1; }
+    .event-date-badge .month { font-size: 12px; font-weight: 700; text-transform: uppercase; opacity: .85; }
+    .event-info h3 { font-family: 'Baloo 2', sans-serif; font-size: 17px; font-weight: 800; margin-bottom: 4px; }
+    .event-info p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    .ev-meta { display: flex; gap: 14px; margin-top: 8px; font-size: 13px; color: var(--text-muted); }
+
+    .subjects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px,1fr));
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+    .subject-card {
+      background: white;
+      border-radius: var(--radius-sm);
+      padding: 20px 12px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+      transition: transform .2s;
+    }
+    .subject-card:hover { transform: translateY(-3px); }
+    .subject-icon { font-size: 32px; margin-bottom: 8px; }
+    .subject-name { font-size: 13px; font-weight: 700; }
+
+    .levels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 20px; }
+    .level-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+    }
+    .level-card h3 { font-family: 'Baloo 2', sans-serif; font-size: 18px; font-weight: 800; margin-bottom: 10px; color: var(--sky-dark); }
+    .level-card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 48px; align-items: start; }
+    .about-visual {
+      background: linear-gradient(135deg, var(--sky-dark), var(--green-dark));
+      border-radius: 24px;
+      padding: 48px 32px;
+      text-align: center;
+      font-size: 80px;
+      color: white;
+      box-shadow: var(--card-shadow-lg);
+    }
+    .about-text h2 { font-size: 30px; font-weight: 800; margin-bottom: 16px; color: var(--sky-dark); }
+    .about-text p { font-size: 15px; color: #475569; margin-bottom: 16px; }
+    .about-values { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .value-chip {
+      background: var(--sky-light);
+      color: var(--sky-dark);
+      border-radius: 100px;
+      padding: 7px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+      gap: 14px;
+    }
+    .gallery-item {
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #e0f7ff, #d1fae5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .2s;
+    }
+    .gallery-item:hover { transform: scale(1.04); }
+    .gallery-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(2,52,99,0.82));
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 24px 12px 14px;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 40px; align-items: start; }
+    .contact-info-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+    }
+    .contact-info-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 20px; color: var(--sky-dark); }
+    .contact-detail { display: flex; gap: 14px; margin-bottom: 18px; align-items: flex-start; }
+    .contact-detail .ico { font-size: 22px; }
+    .contact-detail .dt { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    .contact-detail .dt strong { display: block; color: var(--text); font-weight: 800; margin-bottom: 2px; }
+
+    .form-section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 36px;
+      box-shadow: var(--card-shadow-lg);
+    }
+    .form-title { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
+    .form-sub { color: var(--text-muted); font-size: 15px; margin-bottom: 8px; }
+    .required-note { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--sky-dark), #0369a1);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      font-size: 16px;
+      font-weight: 800;
+      margin-top: 8px;
+      transition: transform .15s, box-shadow .15s, opacity .15s;
+      box-shadow: 0 4px 18px rgba(2,132,199,0.3);
+    }
+    .btn-submit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(2,132,199,0.35); }
+    .btn-submit:disabled { opacity: .6; cursor: not-allowed; }
+    .divider { border-top: 1.5px dashed #e2e8f0; margin: 20px 0; }
+
+    .empty-state { text-align: center; padding: 64px 24px; color: var(--text-muted); }
+    .empty-state .ico { font-size: 48px; margin-bottom: 14px; }
+    .empty-state p { font-size: 16px; }
+    .admin-wrap { display: flex; min-height: calc(100vh - 64px); }
+    .admin-sidebar {
+      width: 220px;
+      background: #0f172a;
+      padding: 24px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+      background: none;
+      border: none;
+      text-align: left;
+      width: 100%;
+    }
+    .sidebar-link:hover { background: #1e293b; color: white; }
+    .sidebar-link.active { background: var(--sky-dark); color: white; }
+    .sidebar-link .icon { font-size: 18px; }
+    .admin-content { flex: 1; padding: 32px; overflow-y: auto; background: #f8faff; }
+    .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+    .admin-header h1 { font-size: 26px; font-weight: 800; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 16px; margin-bottom: 24px; }
+    .stat-card {
+      background: white;
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      box-shadow: var(--card-shadow);
+      text-align: center;
+    }
+    .stat-icon { font-size: 28px; margin-bottom: 8px; }
+    .stat-num { font-family: 'Baloo 2', sans-serif; font-size: 32px; font-weight: 800; color: var(--sky-dark); }
+    .stat-lbl { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }
+    .data-table { width: 100%; border-collapse: collapse; background: white; border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--card-shadow); }
+    .data-table thead { background: #f1f5f9; }
+    .data-table th { padding: 12px 16px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); text-align: left; border-bottom: 2px solid #e2e8f0; }
+    .data-table td { padding: 14px 16px; font-size: 14px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover { background: #f8faff; }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: capitalize;
+    }
+    .badge-approved { background: #d1fae5; color: #065f46; }
+    .badge-pending  { background: #fef3c7; color: #92400e; }
+    .badge-rejected { background: #fee2e2; color: #991b1b; }
+    .badge-unread   { background: #dbeafe; color: #1e40af; }
+    .btn-sm {
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      transition: opacity .15s, transform .1s;
+    }
+    .btn-sm:hover { opacity: .85; transform: translateY(-1px); }
+    .btn-primary   { background: var(--sky-dark); color: white; }
+    .btn-secondary { background: #e2e8f0; color: #334155; }
+    .btn-danger    { background: #fee2e2; color: #991b1b; }
+    .btn-success   { background: #d1fae5; color: #065f46; }
+    .admin-login-wrap { min-height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #e0f7ff, #f0ffe8); padding: 40px 24px; }
+    .admin-login-card { background: white; border-radius: 24px; padding: 48px 40px; width: 100%; max-width: 400px; box-shadow: var(--card-shadow-lg); text-align: center; }
+    .admin-login-card .logo { font-size: 64px; margin-bottom: 16px; }
+    .admin-login-card h2 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+    .admin-login-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+
+    /* ── MODAL ─────────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: 24px;
+      animation: fadeIn .2s ease;
+    }
+    .modal-box {
+      background: white;
+      border-radius: 20px;
+      padding: 36px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+    }
+    .modal-box h3 { font-size: 20px; font-weight: 800; margin-bottom: 20px; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
+
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast-item {
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+      animation: slideIn .3s ease;
+      max-width: 320px;
+    }
+    .toast-success { background: #059669; }
+    .toast-error   { background: #dc2626; }
+    footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 48px 24px 28px;
+    }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand { font-family: 'Baloo 2', sans-serif; font-size: 20px; font-weight: 800; color: white; margin-bottom: 10px; }
+    .footer-desc { font-size: 14px; line-height: 1.7; }
+    .footer-heading { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: #cbd5e1; margin-bottom: 14px; }
+    .footer-link { display: block; font-size: 14px; margin-bottom: 8px; cursor: pointer; transition: color .15s; }
+    .footer-link:hover { color: var(--sky); }
+    .footer-bottom { border-top: 1px solid #1e293b; padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(30px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @media (max-width: 900px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: block; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: grid; grid-template-columns: 1fr 1fr; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-visual { grid-template-columns: 1fr; }
+      .admin-sidebar { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-logo" onclick="navigate('home')">
+    🌍 The Kids Planet <span>Junior School </span> Kilangira Mukono
+  </div>
+  <div class="nav-links" id="nav-links">
+    <button class="nav-link" onclick="navigate('home')">Home</button>
+    <button class="nav-link" onclick="navigate('about')">About</button>
+    <button class="nav-link" onclick="navigate('academics')">Academics</button>
+    <button class="nav-link" onclick="navigate('news')">News</button>
+    <button class="nav-link" onclick="navigate('events')">Events</button>
+    <button class="nav-link" onclick="navigate('gallery')">Gallery</button>
+    <button class="nav-link" onclick="navigate('contact')">Contact</button>
+  </div>
+  <button class="nav-cta" onclick="navigate('admissions')">Apply Now</button>
+  <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.add('open')">☰</button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" onclick="document.getElementById('mobile-menu').classList.remove('open')">✕</button>
+  <button class="nav-link" onclick="navigate('home');document.getElementById('mobile-menu').classList.remove('open')">Home</button>
+  <button class="nav-link" onclick="navigate('about');document.getElementById('mobile-menu').classList.remove('open')">About</button>
+  <button class="nav-link" onclick="navigate('academics');document.getElementById('mobile-menu').classList.remove('open')">Academics</button>
+  <button class="nav-link" onclick="navigate('news');document.getElementById('mobile-menu').classList.remove('open')">News</button>
+  <button class="nav-link" onclick="navigate('events');document.getElementById('mobile-menu').classList.remove('open')">Events</button>
+  <button class="nav-link" onclick="navigate('gallery');document.getElementById('mobile-menu').classList.remove('open')">Gallery</button>
+  <button class="nav-link" onclick="navigate('contact');document.getElementById('mobile-menu').classList.remove('open')">Contact</button>
+  <button class="nav-cta" onclick="navigate('admissions');document.getElementById('mobile-menu').classList.remove('open')">Apply Now</button>
+</div>
+
+<main id="app"></main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">🌍 The Kids Planet Junior School Kilangira Mukono</div>
+        <p class="footer-desc">Nurturing curious, confident, and compassionate learners in the heart of Mukono, Uganda.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Quick Links</div>
+        <span class="footer-link" onclick="navigate('about')">About Us</span>
+        <span class="footer-link" onclick="navigate('academics')">Academics</span>
+        <span class="footer-link" onclick="navigate('admissions')">Admissions</span>
+        <span class="footer-link" onclick="navigate('gallery')">Gallery</span>
+      </div>
+      <div>
+        <div class="footer-heading">School</div>
+        <span class="footer-link" onclick="navigate('news')">Latest News</span>
+        <span class="footer-link" onclick="navigate('events')">Events</span>
+        <span class="footer-link" onclick="navigate('contact')">Contact</span>
+        <span class="footer-link" onclick="navigate('admin')">Staff Portal</span>
+      </div>
+      <div>
+        <div class="footer-heading">Contact</div>
+        <p style="font-size:14px;margin-bottom:8px">📍 Plot 45 Mukono opposite Bumbash, Mukono, Uganda</p>
+        <p style="font-size:14px;margin-bottom:8px">📞 +256 752 126 930</p>
+        <p style="font-size:14px">✉️ kasiryefred@gmail.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 The Kids Planet Junior School, Mukono. All rights reserved.</span>
+      <span style="color:var(--sky)"> STRIVE FOR EXCELLENCE </span>
+    </div>
+  </div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+
+function esc(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+
+function formatDate(d) {
+  if (!d) return '—';
+  try {
+    const dt = /^\d{4}-\d{2}-\d{2}$/.test(d) ? new Date(d + 'T00:00:00') : new Date(d);
+    if (isNaN(dt.getTime())) return String(d);
+    return dt.toLocaleDateString('en-UG', { year: 'numeric', month: 'short', day: 'numeric' });
+  } catch { return String(d); }
+}
+
+
+function showToast(msg, type = 'success') {
+  const container = document.getElementById('toast');
+  const item = document.createElement('div');
+  item.className = `toast-item toast-${type}`;
+  item.textContent = (type === 'success' ? '✅ ' : '❌ ') + msg;
+  container.appendChild(item);
+  setTimeout(() => item.remove(), 3500);
+}
+
+
+async function api(method, url, body) {
+  try {
+    const opts = {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+    };
+    if (body) opts.body = JSON.stringify(body);
+    const res = await fetch(url, opts);
+    const json = await res.json();
+    return json;
+  } catch (err) {
+    console.error('API error:', method, url, err);
+    return { error: 'Network error. Please try again.' };
+  }
+}
+
+/* ─── ROUTER ─────────────────────────────────────────────── */
+let currentPage = '';
+
+function navigate(page, ...args) {
+  currentPage = page;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Update active nav link
+  document.querySelectorAll('.nav-link').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.toLowerCase().replace(/\s/g,'') === page.toLowerCase());
+  });
+
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+
+  const pages = { home, about, academics, news, newsDetail, events, gallery, admissions, contact, admin };
+  if (pages[page]) {
+    pages[page](app, ...args);
+  } else {
+    app.innerHTML = '<div class="section"><div class="section-inner"><div class="empty-state"><div class="ico">😕</div><p>Page not found.</p></div></div></div>';
+  }
+}
+
+async function home(el) {
+  el.innerHTML = `
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge">🏫 The Kids Planet Junior School</div>
+        <h1>Where Every Child's <span>Future Shines</span> Bright</h1>
+        <p>The Kids Planet Junior School nurtures curious, confident, and compassionate learners through quality education, creativity, and a warm community in the heart of Mukono, Uganda.</p>
+        <div class="hero-btns">
+          <button class="btn-hero-primary" onclick="navigate('admissions')">Apply for Admission</button>
+          <button class="btn-hero-secondary" onclick="navigate('about')">Discover Our School</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-stat-card">
+          <div class="num">200+</div>
+          <div class="lbl">Happy Pupils</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="num">20+</div>
+          <div class="lbl">Dedicated Staff</div>
+        </div>
+        <div class="hero-stat-card trophy">
+          <div class="num">🏆 STRIVE FOR EXCELLENCE</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY PJS -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Why Planet Junior?</div>
+        <h2 class="section-title">A Complete Education for Every Child</h2>
+        <p class="section-sub">We believe every child has unique gifts. Our holistic approach develops the whole child — academically, socially and creatively.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card"><div class="why-icon">📚</div><div class="why-title">Academic Excellence</div><div class="why-text">Rigorous curriculum aligned with Uganda's national standards, taught by experienced and passionate educators.</div></div>
+        <div class="why-card"><div class="why-icon">🎨</div><div class="why-title">Creative Arts</div><div class="why-text">Music, drama, art and craft programs that allow children to express themselves and develop confidence.</div></div>
+        <div class="why-card"><div class="why-icon">⚽</div><div class="why-title">Sports & Fitness</div><div class="why-text">A full sports program including football, netball, athletics and swimming to keep children active and healthy.</div></div>
+        <div class="why-card"><div class="why-icon">🤝</div><div class="why-title">Character & Values</div><div class="why-text">We instill discipline, respect, integrity and compassion — values that shape great citizens for life.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LATEST NEWS -->
+  <section class="section section-alt" id="home-news">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Latest News</div>
+        <h2 class="section-title">What's Happening at THE KIDS PLANET</h2>
+      </div>
+      <div class="news-grid" id="home-news-grid">
+        <div class="empty-state"><div class="ico">📰</div><p>Loading news…</p></div>
+      </div>
+      <div class="text-center mt-8">
+        <button class="btn-hero-secondary" onclick="navigate('news')">View All News →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Upcoming Events</div>
+        <h2 class="section-title">Mark Your Calendar</h2>
+      </div>
+      <div id="home-events-list">
+        <div class="empty-state"><div class="ico">📅</div><p>Loading events…</p></div>
+      </div>
+      <div class="text-center mt-8">
+        <button class="btn-hero-secondary" onclick="navigate('events')">See All Events →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <div style="background:linear-gradient(135deg,var(--sky-dark),var(--sky));border-radius:24px;padding:60px;text-align:center;color:white;box-shadow:0 12px 48px rgba(2,132,199,0.25)">
+        <h2 style="font-size:36px;font-weight:800;margin-bottom:12px">Ready to Join the Planet Junior Family?</h2>
+        <p style="font-size:17px;opacity:0.9;margin-bottom:32px;max-width:520px;margin-left:auto;margin-right:auto">Applications for 2026 are now open. Give your child the best start in life.</p>
+        <button class="btn-hero-primary" style="background:white;color:var(--sky-dark)" onclick="navigate('admissions')">Apply for Admission Today</button>
+      </div>
+    </div>
+  </section>`;
+  try {
+    const newsData = await api('GET', '/api/news');
+    const ng = document.getElementById('home-news-grid');
+    if (ng) {
+      const items = Array.isArray(newsData) ? newsData.slice(0, 3) : [];
+      ng.innerHTML = items.length
+        ? items.map(n => newsCardHTML(n)).join('')
+        : '<div class="empty-state"><div class="ico">📰</div><p>No news yet.</p></div>';
+    }
+  } catch { }
+
+  try {
+    const evData = await api('GET', '/api/events');
+    const evEl = document.getElementById('home-events-list');
+    if (evEl) {
+      const items = Array.isArray(evData) ? evData.slice(0, 4) : [];
+      evEl.innerHTML = items.length
+        ? `<div class="events-list">${items.map(e => eventItemHTML(e)).join('')}</div>`
+        : '<div class="empty-state"><div class="ico">📅</div><p>No events scheduled.</p></div>';
+    }
+  } catch { /* silently fail */ }
+}
+function about(el) {
+  el.innerHTML = `
+  <div style="background:linear-gradient(135deg,var(--sky),var(--sky-dark));padding:60px 24px;text-align:center;color:white">
+    <div class="section-eyebrow" style="background:rgba(255,255,255,0.2);color:white;margin-bottom:12px">About Us</div>
+    <h1 style="font-size:clamp(28px,5vw,50px);font-weight:800;margin-bottom:12px">Our Story &amp; Mission</h1>
+    <p style="font-size:17px;opacity:0.9;max-width:560px;margin:0 auto">Building the next generation of Ugandan leaders through love, learning, and laughter.</p>
+  </div>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-visual">🌍<br><br>
+          <div style="font-size:22px;font-weight:800;color:white;margin-top:8px">Est. 2005</div>
+          <div style="color:rgba(255,255,255,0.85);font-size:15px;margin-top:4px">Mukono, Uganda</div>
+        </div>
+        <div class="about-text">
+          <h2>Who We Are</h2>
+          <p>The Kids Planet Junior School is a vibrant primary school nestled in the heart of Mukono, Uganda. Founded with a passion to provide quality, affordable and holistic education, we have grown into one of the most trusted institutions in the region.</p>
+          <p>Our dedicated team of over 40 teachers and support staff create a warm, stimulating environment where curiosity is celebrated and every child is known by name.</p>
+          <p>We follow the Uganda National Curriculum while integrating innovative teaching methods that prepare our pupils for the modern world.</p>
+          <div class="about-values">
+            <div class="value-chip"><span>🌟</span> Excellence</div>
+            <div class="value-chip"><span>❤️</span> Care &amp; Love</div>
+            <div class="value-chip"><span>🌱</span> Growth</div>
+            <div class="value-chip"><span>🤝</span> Community</div>
+            <div class="value-chip"><span>🎯</span> Discipline</div>
+            <div class="value-chip"><span>✨</span> Creativity</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Our Team</div>
+        <h2 class="section-title">Leadership &amp; Staff</h2>
+        <p class="section-sub">Our passionate educators bring years of experience and genuine love for children.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card"><div class="why-icon">👩‍💼</div><div class="why-title">Head Teacher</div><div class="why-text">Provides visionary leadership, ensuring every child receives a world-class education in a nurturing environment.</div></div>
+        <div class="why-card"><div class="why-icon">👨‍🏫</div><div class="why-title">Class Teachers</div><div class="why-text">30+ experienced teachers, each dedicated to bringing out the very best in every pupil they serve.</div></div>
+        <div class="why-card"><div class="why-icon">🧑‍🔬</div><div class="why-title">Subject Specialists</div><div class="why-text">Specialists in Sciences, Arts, PE and ICT who bring deep expertise and enthusiasm to their subjects.</div></div>
+        <div class="why-card"><div class="why-icon">🧑‍⚕️</div><div class="why-title">Support Staff</div><div class="why-text">Counselors, nurses, cooks and security staff who ensure the safety, health and wellbeing of every child.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Our Facilities</div>
+        <h2 class="section-title">A World-Class Learning Environment</h2>
+      </div>
+      <div class="subjects-grid">
+        ${[['🏫','Spacious Classrooms'],['🔬','Science Laboratory'],['📚','School Library'],['💻','Computer Lab'],['⚽','Sports Field'],['🎭','Assembly Hall'],['🍽️','Dining Hall'],['🛏️','Boarding Facilities']].map(([ico,name])=>`<div class="subject-card"><div class="subject-icon">${ico}</div><div class="subject-name">${name}</div></div>`).join('')}
+      </div>
+    </div>
+  </section>`;
+}
+
+function academics(el) {
+  el.innerHTML = `
+  <div style="background:linear-gradient(135deg,var(--green-dark),var(--green));padding:60px 24px;text-align:center;color:white">
+    <div class="section-eyebrow" style="background:rgba(255,255,255,0.2);color:white;margin-bottom:12px">Academics</div>
+    <h1 style="font-size:clamp(28px,5vw,50px);font-weight:800;margin-bottom:12px">Our Curriculum</h1>
+    <p style="font-size:17px;opacity:0.9;max-width:560px;margin:0 auto">A comprehensive, nationally-aligned curriculum that builds knowledge, skills and character.</p>
+  </div>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Subjects We Offer</div>
+        <h2 class="section-title">Broad &amp; Balanced Learning</h2>
+      </div>
+      <div class="subjects-grid">
+        ${[['📖','English Language'],['➕','Mathematics'],['🔬','Science'],['🌍','Social Studies'],['🙏','Religious Education'],['🎨','Art & Craft'],['🎵','Music'],['💻','Computer Studies'],['🏃','Physical Education'],['🇺🇬','Kiswahili']].map(([ico,name])=>`<div class="subject-card"><div class="subject-icon">${ico}</div><div class="subject-name">${name}</div></div>`).join('')}
+      </div>
+      <div class="levels-grid">
+        <div class="level-card">
+          <h3>🌱 Baby Class – P2</h3>
+          <p>A play-based foundation that builds literacy, numeracy and social skills through fun, interactive activities. Children develop a love for learning from their very first day.</p>
+        </div>
+        <div class="level-card">
+          <h3>📚 Primary 3 – Primary 5</h3>
+          <p>Building on foundational skills with deeper subject knowledge. Pupils develop critical thinking, reading fluency and mathematical reasoning through structured lessons and projects.</p>
+        </div>
+        <div class="level-card">
+          <h3>🎓 Primary 6 – Primary 7</h3>
+          <p>Rigorous preparation for the PLE national examinations. Expert teachers guide students through intensive revision, past papers, and exam techniques to achieve outstanding results.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Co-Curricular</div>
+        <h2 class="section-title">Beyond the Classroom</h2>
+        <p class="section-sub">We believe in developing well-rounded individuals through a rich programme of clubs and activities.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card"><div class="why-icon">⚽</div><div class="why-title">Sports Clubs</div><div class="why-text">Football, netball, basketball, athletics and swimming for pupils from P3 onwards.</div></div>
+        <div class="why-card"><div class="why-icon">🎭</div><div class="why-title">Drama &amp; Debate</div><div class="why-text">Building confidence, public speaking and creative expression through performance and debate clubs.</div></div>
+        <div class="why-card"><div class="why-icon">🎵</div><div class="why-title">Music &amp; Dance</div><div class="why-text">School choir, traditional dance and band for pupils who love music and cultural expression.</div></div>
+        <div class="why-card"><div class="why-icon">🔬</div><div class="why-title">Science Club</div><div class="why-text">Hands-on experiments, science fairs and STEM challenges that spark curiosity and innovation.</div></div>
+      </div>
+    </div>
+  </section>`;
+}
+
+async function news(el) {
+  el.innerHTML = `
+  <div style="background:linear-gradient(135deg,#f77f00,#ffd166);padding:60px 24px;text-align:center;color:white">
+    <div class="section-eyebrow" style="background:rgba(255,255,255,0.25);color:white;margin-bottom:12px">School News</div>
+    <h1 style="font-size:clamp(28px,5vw,50px);font-weight:800;margin-bottom:12px">Latest News &amp; Updates</h1>
+    <p style="font-size:17px;opacity:0.9;max-width:560px;margin:0 auto">Stay informed about everything happening at Planet Junior School.</p>
+  </div>
+  <section class="section">
+    <div class="section-inner">
+      <div class="news-grid" id="news-grid">
+        <div class="empty-state"><div class="ico">📰</div><p>Loading…</p></div>
+      </div>
+    </div>
+  </section>`;
+
+  const data = await api('GET', '/api/news');
+  const ng = document.getElementById('news-grid');
+  if (ng) {
+    const items = Array.isArray(data) ? data : [];
+    ng.innerHTML = items.length
+      ? items.map(n => newsCardHTML(n)).join('')
+      : '<div class="empty-state"><div class="ico">📰</div><p>No news published yet.</p></div>';
+  }
+}
+
+async function newsDetail(el, id) {
+  el.innerHTML = '<div class="section"><div class="section-inner"><div class="empty-state"><div class="ico">⏳</div><p>Loading article…</p></div></div></div>';
+  const n = await api('GET', '/api/news/' + encodeURIComponent(id));
+
+  if (!n || n.error) {
+    el.innerHTML = '<div class="section"><div class="section-inner"><div class="empty-state"><div class="ico">😕</div><p>Article not found.</p></div></div></div>';
+    return;
+  }
+
+  el.innerHTML = `
+  <section class="section">
+    <div class="section-inner" style="max-width:760px;margin:0 auto">
+      <button onclick="navigate('news')" style="background:none;border:none;cursor:pointer;color:var(--sky-dark);font-weight:700;font-size:14px;margin-bottom:24px;display:flex;align-items:center;gap:6px;font-family:'Nunito',sans-serif">← Back to News</button>
+      <div class="news-img" style="border-radius:var(--radius);margin-bottom:32px;height:240px;font-size:96px;background:linear-gradient(135deg,#e0f7ff,#b3ecff)">📰</div>
+      <span class="news-cat">${esc(n.category) || 'News'}</span>
+      <h1 style="font-size:clamp(24px,4vw,40px);font-weight:800;margin:12px 0 8px;line-height:1.2">${esc(n.title)}</h1>
+      <div style="color:var(--text-muted);font-size:14px;margin-bottom:32px">📅 ${formatDate(n.date)}</div>
+      <div style="font-size:17px;line-height:1.9;color:#2d3748">${esc(n.body || n.excerpt)}</div>
+    </div>
+  </section>`;
+}
+
+async function events(el) {
+  el.innerHTML = `
+  <div style="background:linear-gradient(135deg,var(--purple),#a855f7);padding:60px 24px;text-align:center;color:white">
+    <div class="section-eyebrow" style="background:rgba(255,255,255,0.2);color:white;margin-bottom:12px">Events</div>
+    <h1 style="font-size:clamp(28px,5vw,50px);font-weight:800;margin-bottom:12px">School Events</h1>
+    <p style="font-size:17px;opacity:0.9;max-width:560px;margin:0 auto">Keep up with the exciting events happening throughout the school year.</p>
+  </div>
+  <section class="section">
+    <div class="section-inner" style="max-width:800px;margin:0 auto">
+      <div id="events-list"><div class="empty-state"><div class="ico">📅</div><p>Loading…</p></div></div>
+    </div>
+  </section>`;
+
+  const data = await api('GET', '/api/events');
+  const evList = document.getElementById('events-list');
+  if (evList) {
+    const items = Array.isArray(data) ? data : [];
+    evList.innerHTML = items.length
+      ? `<div class="events-list">${items.map(e => eventItemHTML(e)).join('')}</div>`
+      : '<div class="empty-state"><div class="ico">📅</div><p>No events scheduled yet.</p></div>';
+  }
+}
+
+async function gallery(el) {
+  const emojis = ['🏫','📚','⚽','🎵','🔬','🌱','🎨','🏃','🎭','📖','💻','🤝'];
+  el.innerHTML = `
+  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);padding:60px 24px;text-align:center;color:white">
+    <div class="section-eyebrow" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);margin-bottom:12px">Gallery</div>
+    <h1 style="font-size:clamp(28px,5vw,50px);font-weight:800;margin-bottom:12px">School Life in Pictures</h1>
+    <p style="font-size:17px;opacity:0.9;max-width:560px;margin:0 auto">Glimpses of the vibrant, joyful community at Planet Junior School.</p>
+  </div>
+  <section class="section">
+    <div class="section-inner">
+      <div id="gallery-grid" class="gallery-grid">
+        <div class="empty-state"><div class="ico">🖼️</div><p>Loading…</p></div>
+      </div>
+    </div>
+  </section>`;
+
+  const data = await api('GET', '/api/gallery');
+  const gg = document.getElementById('gallery-grid');
+  if (gg) {
+    const items = Array.isArray(data) ? data : [];
+    gg.innerHTML = items.length
+      ? items.map((g, i) => `
+        <div class="gallery-item">
+          ${emojis[i % emojis.length]}
+          <div class="gallery-overlay">${esc(g.caption)}</div>
+        </div>`).join('')
+      : '<div class="empty-state"><div class="ico">🖼️</div><p>No gallery items yet.</p></div>';
+  }
+}
+
+/* ─── ADMISSIONS ─────────────────────────────────────────── */
+function admissions(el) {
+  el.innerHTML = `
+  <div style="background:linear-gradient(135deg,var(--sky-dark),var(--green));padding:60px 24px;text-align:center;color:white">
+    <div class="section-eyebrow" style="background:rgba(255,255,255,0.2);color:white;margin-bottom:12px">Admissions 2026</div>
+    <h1 style="font-size:clamp(28px,5vw,50px);font-weight:800;margin-bottom:12px">Join Planet Junior School</h1>
+    <p style="font-size:17px;opacity:0.9;max-width:560px;margin:0 auto">Applications are now open. Complete the form below and we will be in touch within 3 business days.</p>
+  </div>
+  <section class="section">
+    <div class="section-inner">
+      <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:48px;align-items:start;max-width:1000px;margin:0 auto">
+        <div>
+          <h3 style="font-size:22px;font-weight:800;margin-bottom:20px">Admission Requirements</h3>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            ${[['📄','Birth Certificate','Official copy required'],
+               ['💉','Immunisation Card','Up-to-date vaccinations'],
+               ['📸','Passport Photos','2 recent passport-size photos'],
+               ['📝','Previous Reports','For P2 and above'],
+               ['💰','Registration Fee','UGX 50,000 non-refundable']].map(([ico,title,desc])=>`
+            <div style="display:flex;gap:12px;background:white;padding:16px;border-radius:12px;box-shadow:var(--card-shadow)">
+              <span style="font-size:24px">${ico}</span>
+              <div><div style="font-weight:700;font-size:15px">${title}</div><div style="color:var(--text-muted);font-size:13px">${desc}</div></div>
+            </div>`).join('')}
+          </div>
+          <div style="background:linear-gradient(135deg,var(--sky),var(--sky-dark));border-radius:12px;padding:24px;margin-top:24px;color:white">
+            <div style="font-weight:800;font-size:16px;margin-bottom:8px">📞 Need Help?</div>
+            <div style="font-size:14px;opacity:0.9">Call us on +256 700 000 000 or visit us at our offices in Mukono.</div>
+          </div>
+        </div>
+        <div class="form-section">
+          <h2 class="form-title">📋 Application Form</h2>
+          <p class="form-sub">Fill in all required fields. Our admissions team will review your application promptly.</p>
+          <p class="required-note">Fields marked * are required.</p>
+          <div id="admission-msg"></div>
+          <form id="admission-form" onsubmit="submitAdmission(event)">
+            <h4 style="font-size:14px;font-weight:800;color:var(--sky-dark);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.06em">Child's Information</h4>
+            <div class="form-row">
+              <div class="form-group"><label>Child's Full Name *</label><input name="childName" required placeholder="e.g. Amara Nakato"></div>
+              <div class="form-group"><label>Date of Birth *</label><input type="date" name="dob" required></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Applying for Class *</label>
+                <select name="grade" required>
+                  <option value="">Select class</option>
+                  ${['Baby Class','Middle Class','Top Class','Primary 1','Primary 2','Primary 3','Primary 4','Primary 5','Primary 6','Primary 7'].map(g=>`<option value="${g}">${g}</option>`).join('')}
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Gender *</label>
+                <select name="gender" required>
+                  <option value="">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+            </div>
+            <hr class="divider">
+            <h4 style="font-size:14px;font-weight:800;color:var(--sky-dark);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.06em">Parent / Guardian Information</h4>
+            <div class="form-row">
+              <div class="form-group"><label>Parent/Guardian Name *</label><input name="parentName" required placeholder="Full name"></div>
+              <div class="form-group"><label>Relationship to Child</label><input name="relationship" placeholder="e.g. Mother"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Email Address *</label><input type="email" name="parentEmail" required placeholder="your@email.com"></div>
+              <div class="form-group"><label>Phone Number *</label><input name="parentPhone" required placeholder="+256 …"></div>
+            </div>
+            <div class="form-group"><label>Home Address</label><input name="address" placeholder="Mukono, Uganda"></div>
+            <div class="form-group"><label>Additional Message</label><textarea name="message" placeholder="Any special needs, questions or notes for our team…"></textarea></div>
+            <button type="submit" class="btn-submit" id="adm-btn">Submit Application 🚀</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+async function submitAdmission(e) {
+  e.preventDefault();
+  const btn = document.getElementById('adm-btn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+  const form = document.getElementById('admission-form');
+  const data = Object.fromEntries(new FormData(form));
+  const res = await api('POST', '/api/admissions', data);
+  btn.disabled = false;
+  btn.textContent = 'Submit Application 🚀';
+
+  if (res.success) {
+    showToast('Application submitted! We will contact you soon.', 'success');
+    form.reset();
+    document.getElementById('admission-msg').innerHTML =
+      '<div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:12px;padding:16px;color:#065f46;font-weight:700;margin-bottom:20px">✅ Application received! We\'ll be in touch within 3 business days.</div>';
+  } else {
+    showToast(res.error || 'Something went wrong. Please try again.', 'error');
+  }
+}
+
+/* ─── CONTACT ────────────────────────────────────────────── */
+function contact(el) {
+  el.innerHTML = `
+  <div style="background:linear-gradient(135deg,#1a1a2e,var(--sky-dark));padding:60px 24px;text-align:center;color:white">
+    <div class="section-eyebrow" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.9);margin-bottom:12px">Contact Us</div>
+    <h1 style="font-size:clamp(28px,5vw,50px);font-weight:800;margin-bottom:12px">Get in Touch</h1>
+    <p style="font-size:17px;opacity:0.9;max-width:560px;margin:0 auto">We'd love to hear from you. Our friendly team is always happy to help.</p>
+  </div>
+  <section class="section">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <div>
+          <div class="contact-info-card">
+            <h3>📍 Find Us</h3>
+            <div class="contact-detail"><span class="ico">📍</span><div class="dt"><strong>Address</strong>Plot 45 Mukono Hill Road,<br>Mukono, Central Region, Uganda</div></div>
+            <div class="contact-detail"><span class="ico">📞</span><div class="dt"><strong>Phone</strong>+256 700 000 000<br>+256 414 000 000</div></div>
+            <div class="contact-detail"><span class="ico">✉️</span><div class="dt"><strong>Email</strong>info@planetjunior.ug<br>admissions@planetjunior.ug</div></div>
+            <div class="contact-detail"><span class="ico">🕐</span><div class="dt"><strong>Office Hours</strong>Monday – Friday<br>7:30 AM – 5:00 PM</div></div>
+          </div>
+          <div style="background:white;border-radius:var(--radius-sm);padding:24px;box-shadow:var(--card-shadow);margin-top:20px">
+            <div style="font-weight:800;font-size:16px;margin-bottom:12px">🗺️ Getting Here</div>
+            <div style="color:var(--text-muted);font-size:14px;line-height:1.7">We are located on Mukono Hill Road, easily accessible from Kampala via the Kampala–Jinja Highway. Look for our school gate with the Planet Junior logo. Bodaboda and taxi services are available from Mukono town.</div>
+          </div>
+        </div>
+        <div class="form-section">
+          <h2 class="form-title">✉️ Send Us a Message</h2>
+          <p class="form-sub">Have a question? We'll get back to you within 24 hours.</p>
+          <div id="contact-msg"></div>
+          <form onsubmit="submitContact(event)">
+            <div class="form-row">
+              <div class="form-group"><label>Your Name *</label><input name="name" required placeholder="Full name"></div>
+              <div class="form-group"><label>Email Address *</label><input type="email" name="email" required placeholder="your@email.com"></div>
+            </div>
+            <div class="form-group"><label>Subject</label><input name="subject" placeholder="What is this about?"></div>
+            <div class="form-group"><label>Message *</label><textarea name="message" required placeholder="How can we help you?"></textarea></div>
+            <button type="submit" class="btn-submit" id="contact-btn">Send Message ✈️</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+async function submitContact(e) {
+  e.preventDefault();
+  const btn = document.getElementById('contact-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  const data = Object.fromEntries(new FormData(e.target));
+  const res = await api('POST', '/api/contact', data);
+  btn.disabled = false;
+  btn.textContent = 'Send Message ✈️';
+
+  if (res.success) {
+    showToast("Message sent! We'll reply soon.", 'success');
+    e.target.reset();
+    document.getElementById('contact-msg').innerHTML =
+      '<div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:12px;padding:16px;color:#065f46;font-weight:700;margin-bottom:20px">✅ Message sent! We\'ll get back to you within 24 hours.</div>';
+  } else {
+    showToast(res.error || 'Failed to send. Please try again.', 'error');
+  }
+}
+
+/* ─── ADMIN ──────────────────────────────────────────────── */
+async function admin(el, section) {
+  const check = await api('GET', '/api/admin/check');
+  if (!check || !check.admin) { renderAdminLogin(el); return; }
+  renderAdminDash(el, section || 'dashboard');
+}
+
+function renderAdminLogin(el) {
+  el.innerHTML = `
+  <div class="admin-login-wrap">
+    <div class="admin-login-card">
+      <div class="logo">🔐</div>
+      <h2>Staff Portal</h2>
+      <p>Planet Junior School — Admin Access</p>
+      <div id="login-err" style="color:var(--red);font-size:14px;margin-bottom:12px;min-height:20px"></div>
+      <form onsubmit="doLogin(event)">
+        <div class="form-group"><label>Username</label><input name="username" required placeholder="Username"></div>
+        <div class="form-group"><label>Password</label><input type="password" name="password" required placeholder="••••••••"></div>
+        <button type="submit" class="btn-submit" id="login-btn">Sign In</button>
+      </form>
+    </div>
+  </div>`;
+  /* Note: removed hard-coded demo credentials from UI for security */
+}
+
+async function doLogin(e) {
+  e.preventDefault();
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+  const data = Object.fromEntries(new FormData(e.target));
+  const res = await api('POST', '/api/admin/login', data);
+  if (res.success) {
+    navigate('admin');
+  } else {
+    document.getElementById('login-err').textContent = '❌ Invalid credentials';
+    btn.disabled = false;
+    btn.textContent = 'Sign In';
+  }
+}
+
+function renderAdminDash(el, section) {
+  el.innerHTML = `
+  <div class="admin-wrap">
+    <div class="admin-sidebar">
+      <div style="color:white;font-family:'Baloo 2',sans-serif;font-size:18px;font-weight:800;padding:0 12px 20px;border-bottom:1px solid #1e2d3d;margin-bottom:12px">🌍 PJS Admin</div>
+      ${[['📊','dashboard','Dashboard'],['📰','anews','News'],['📅','aevents','Events'],['📋','aadmissions','Admissions'],['✉️','acontacts','Messages']].map(([ico,s,label])=>`
+        <button class="sidebar-link ${section===s?'active':''}" onclick="adminSection(this,'${s}')">
+          <span class="icon">${ico}</span>${label}
+        </button>`).join('')}
+      <div style="flex:1"></div>
+      <button class="sidebar-link" onclick="doLogout()" style="margin-top:auto"><span class="icon">🚪</span>Logout</button>
+    </div>
+    <div class="admin-content" id="admin-content">
+      <div class="empty-state"><div class="ico">⏳</div><p>Loading…</p></div>
+    </div>
+  </div>`;
+  loadAdminSection(section);
+}
+
+function adminSection(clickedEl, s) {
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  clickedEl.classList.add('active');
+  loadAdminSection(s);
+}
+
+async function doLogout() {
+  await api('POST', '/api/admin/logout');
+  navigate('home');
+  showToast('Logged out successfully', 'success');
+}
+
+async function loadAdminSection(s) {
+  const c = document.getElementById('admin-content');
+  if (!c) return;
+  c.innerHTML = '<div class="empty-state"><div class="ico">⏳</div><p>Loading…</p></div>';
+  if (s === 'dashboard')   await renderDashboard(c);
+  if (s === 'anews')       await renderAdminNews(c);
+  if (s === 'aevents')     await renderAdminEvents(c);
+  if (s === 'aadmissions') await renderAdminAdmissions(c);
+  if (s === 'acontacts')   await renderAdminContacts(c);
+}
+
+async function renderDashboard(c) {
+  const stats = await api('GET', '/api/admin/stats');
+  c.innerHTML = `
+  <div class="admin-header"><h1>Dashboard</h1><span style="color:var(--text-muted);font-size:14px">Welcome back, Admin 👋</span></div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-icon">📰</div><div class="stat-num">${esc(String(stats.news ?? 0))}</div><div class="stat-lbl">News Articles</div></div>
+    <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-num">${esc(String(stats.events ?? 0))}</div><div class="stat-lbl">Events</div></div>
+    <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-num">${esc(String(stats.admissions ?? 0))}</div><div class="stat-lbl">Applications</div></div>
+    <div class="stat-card"><div class="stat-icon">⏳</div><div class="stat-num" style="color:var(--sun)">${esc(String(stats.pendingAdmissions ?? 0))}</div><div class="stat-lbl">Pending Review</div></div>
+    <div class="stat-card"><div class="stat-icon">✉️</div><div class="stat-num">${esc(String(stats.contacts ?? 0))}</div><div class="stat-lbl">Messages</div></div>
+    <div class="stat-card"><div class="stat-icon">🔔</div><div class="stat-num" style="color:var(--red)">${esc(String(stats.unreadContacts ?? 0))}</div><div class="stat-lbl">Unread Messages</div></div>
+  </div>
+  <div style="background:linear-gradient(135deg,var(--sky),var(--sky-dark));border-radius:var(--radius);padding:32px;color:white;margin-top:8px">
+    <h3 style="font-size:20px;font-weight:800;margin-bottom:8px">🌍 Planet Junior School Portal</h3>
+    <p style="opacity:0.9;font-size:15px">Manage your school's website content, review admission applications, and respond to parent enquiries — all from one place.</p>
+  </div>`;
+}
+
+async function renderAdminNews(c) {
+  const data = await api('GET', '/api/admin/news');
+  const items = Array.isArray(data) ? data : [];
+  c.innerHTML = `
+  <div class="admin-header"><h1>News Articles</h1><button class="btn-sm btn-primary" onclick="showAddNewsModal()">+ Add Article</button></div>
+  <div id="news-modal"></div>
+  <table class="data-table">
+    <thead><tr><th>Title</th><th>Category</th><th>Date</th><th>Actions</th></tr></thead>
+    <tbody>
+      ${items.map(n=>`<tr>
+        <td><strong>${esc(n.title)}</strong><div style="color:var(--text-muted);font-size:12px;margin-top:2px">${esc((n.excerpt||'').slice(0,60))}…</div></td>
+        <td><span class="badge badge-approved">${esc(n.category||'General')}</span></td>
+        <td>${formatDate(n.date)}</td>
+        <td><button class="btn-sm btn-danger" onclick="deleteNews(${Number(n.id)})">Delete</button></td>
+      </tr>`).join('')}
+      ${!items.length?'<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:32px">No articles yet</td></tr>':''}
+    </tbody>
+  </table>`;
+}
+
+function showAddNewsModal() {
+  document.getElementById('news-modal').innerHTML = `
+  <div class="modal-overlay" onclick="if(event.target===this)this.remove()">
+    <div class="modal-box">
+      <h3>📰 Add News Article</h3>
+      <form onsubmit="saveNews(event)">
+        <div class="form-group"><label>Title *</label><input name="title" required placeholder="Article title"></div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category</label>
+            <select name="category">
+              <option value="General">General</option>
+              <option value="Events">Events</option>
+              <option value="Academics">Academics</option>
+              <option value="Sports">Sports</option>
+              <option value="Facilities">Facilities</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Date *</label><input type="date" name="date" required value="${new Date().toISOString().split('T')[0]}"></div>
+        </div>
+        <div class="form-group"><label>Excerpt *</label><textarea name="excerpt" required placeholder="Short summary…" style="min-height:70px"></textarea></div>
+        <div class="form-group"><label>Full Content *</label><textarea name="body" required placeholder="Full article text…" style="min-height:140px"></textarea></div>
+        <div class="modal-actions">
+          <button type="button" class="btn-sm btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+          <button type="submit" class="btn-sm btn-primary">Publish Article</button>
+        </div>
+      </form>
+    </div>
+  </div>`;
+}
+
+async function saveNews(e) {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  const res = await api('POST', '/api/admin/news', data);
+  if (res.success) {
+    showToast('Article published!', 'success');
+    loadAdminSection('anews');
+    e.target.closest('.modal-overlay').remove();
+  } else {
+    showToast(res.error || 'Failed to publish', 'error');
+  }
+}
+
+async function deleteNews(id) {
+  if (!confirm('Delete this article?')) return;
+  const res = await api('DELETE', '/api/admin/news/' + id);
+  if (res && !res.error) {
+    showToast('Article deleted', 'success');
+  } else {
+    showToast(res?.error || 'Failed to delete', 'error');
+  }
+  loadAdminSection('anews');
+}
+
+async function renderAdminEvents(c) {
+  const data = await api('GET', '/api/admin/events');
+  const items = Array.isArray(data) ? data : [];
+  c.innerHTML = `
+  <div class="admin-header"><h1>Events</h1><button class="btn-sm btn-primary" onclick="showAddEventModal()">+ Add Event</button></div>
+  <div id="event-modal"></div>
+  <table class="data-table">
+    <thead><tr><th>Title</th><th>Date</th><th>Time</th><th>Location</th><th>Actions</th></tr></thead>
+    <tbody>
+      ${items.map(ev=>`<tr>
+        <td><strong>${esc(ev.title)}</strong><div style="color:var(--text-muted);font-size:12px;margin-top:2px">${esc(ev.description||'')}</div></td>
+        <td>${formatDate(ev.date)}</td>
+        <td>${esc(ev.time||'—')}</td>
+        <td>${esc(ev.location||'—')}</td>
+        <td><button class="btn-sm btn-danger" onclick="deleteEvent(${Number(ev.id)})">Delete</button></td>
+      </tr>`).join('')}
+      ${!items.length?'<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:32px">No events yet</td></tr>':''}
+    </tbody>
+  </table>`;
+}
+
+function showAddEventModal() {
+  document.getElementById('event-modal').innerHTML = `
+  <div class="modal-overlay" onclick="if(event.target===this)this.remove()">
+    <div class="modal-box">
+      <h3>📅 Add Event</h3>
+      <form onsubmit="saveEvent(event)">
+        <div class="form-group"><label>Event Title *</label><input name="title" required placeholder="e.g. Sports Day"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Date *</label><input type="date" name="date" required></div>
+          <div class="form-group"><label>Time</label><input name="time" placeholder="e.g. 9:00 AM"></div>
+        </div>
+        <div class="form-group"><label>Location</label><input name="location" placeholder="e.g. School Grounds"></div>
+        <div class="form-group"><label>Description</label><textarea name="description" placeholder="Brief description…" style="min-height:80px"></textarea></div>
+        <div class="modal-actions">
+          <button type="button" class="btn-sm btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+          <button type="submit" class="btn-sm btn-primary">Add Event</button>
+        </div>
+      </form>
+    </div>
+  </div>`;
+}
+
+async function saveEvent(e) {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  const res = await api('POST', '/api/admin/events', data);
+  if (res.success) {
+    showToast('Event added!', 'success');
+    loadAdminSection('aevents');
+    e.target.closest('.modal-overlay').remove();
+  } else {
+    showToast(res.error || 'Failed to add event', 'error');
+  }
+}
+
+async function deleteEvent(id) {
+  if (!confirm('Delete this event?')) return;
+  const res = await api('DELETE', '/api/admin/events/' + id);
+  if (res && !res.error) {
+    showToast('Event deleted', 'success');
+  } else {
+    showToast(res?.error || 'Failed to delete', 'error');
+  }
+  loadAdminSection('aevents');
+}
+
+async function renderAdminAdmissions(c) {
+  const data = await api('GET', '/api/admin/admissions');
+  const items = Array.isArray(data) ? data : [];
+  c.innerHTML = `
+  <div class="admin-header"><h1>Admission Applications</h1><span style="color:var(--text-muted);font-size:14px">${items.length} total</span></div>
+  <table class="data-table">
+    <thead><tr><th>Child</th><th>Class</th><th>Parent</th><th>Contact</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>
+      ${items.map(a=>`<tr>
+        <td><strong>${esc(a.childName)}</strong><div style="font-size:12px;color:var(--text-muted)">${a.dob?'DOB: '+esc(a.dob):''}</div></td>
+        <td>${esc(a.grade||'—')}</td>
+        <td>${esc(a.parentName)}<div style="font-size:12px;color:var(--sky-dark)">${esc(a.parentEmail)}</div></td>
+        <td>${esc(a.parentPhone||'—')}</td>
+        <td>${formatDate(a.date?.split('T')[0])}</td>
+        <td><span class="badge badge-${esc(a.status||'pending')}">${esc(a.status||'pending')}</span></td>
+        <td style="display:flex;gap:6px">
+          <button class="btn-sm btn-success" onclick="updateAdm(${Number(a.id)},'approved')">✓</button>
+          <button class="btn-sm btn-danger" onclick="updateAdm(${Number(a.id)},'rejected')">✗</button>
+        </td>
+      </tr>`).join('')}
+      ${!items.length?'<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:32px">No applications yet</td></tr>':''}
+    </tbody>
+  </table>`;
+}
+
+async function updateAdm(id, status) {
+  const res = await api('PUT', '/api/admin/admissions/' + id, { status });
+  if (res && !res.error) {
+    showToast('Status updated to ' + status, 'success');
+  } else {
+    showToast(res?.error || 'Update failed', 'error');
+  }
+  loadAdminSection('aadmissions');
+}
+
+async function renderAdminContacts(c) {
+  const data = await api('GET', '/api/admin/contacts');
+  const items = Array.isArray(data) ? data : [];
+  const unread = items.filter(d => !d.read).length;
+  c.innerHTML = `
+  <div class="admin-header"><h1>Messages</h1><span style="color:var(--text-muted);font-size:14px">${unread} unread</span></div>
+  <table class="data-table">
+    <thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody>
+      ${items.map(m=>`<tr style="${!m.read ? 'background:#f0f9ff' : ''}">
+        <td><strong>${esc(m.name)}</strong></td>
+        <td style="color:var(--sky-dark)">${esc(m.email)}</td>
+        <td>${esc(m.subject||'—')}</td>
+        <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(m.message)}</td>
+        <td>${formatDate(m.date?.split('T')[0])}</td>
+        <td>${m.read?'<span class="badge badge-approved">Read</span>':'<span class="badge badge-unread">Unread</span>'}</td>
+        <td>${!m.read?`<button class="btn-sm btn-secondary" onclick="markRead(${Number(m.id)})">Mark Read</button>`:''}</td>
+      </tr>`).join('')}
+      ${!items.length?'<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:32px">No messages yet</td></tr>':''}
+    </tbody>
+  </table>`;
+  /* Bug fix: removed stray `}` from inside the style attribute that was present in original */
+}
+
+async function markRead(id) {
+  await api('PUT', '/api/admin/contacts/' + id + '/read');
+  loadAdminSection('acontacts');
+}
+
+/* ─── HTML HELPERS ───────────────────────────────────────── */
+function newsCardHTML(n) {
+  const emojis = { General:'📰', Events:'🎉', Academics:'📚', Sports:'⚽', Facilities:'🏫' };
+  return `<div class="news-card">
+    <div class="news-img">${emojis[n.category] || '📰'}</div>
+    <div class="news-body">
+      <span class="news-cat">${esc(n.category||'General')}</span>
+      <div class="news-title">${esc(n.title)}</div>
+      <div class="news-excerpt">${esc(n.excerpt||'')}</div>
+      <div class="news-meta">
+        <span>📅 ${formatDate(n.date)}</span>
+        <span class="read-more" onclick="navigate('newsDetail',${Number(n.id)})">Read more →</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function eventItemHTML(e) {
+  // Bug fix: append T00:00:00 to avoid UTC timezone shifting the date
+  const rawDate = e.date ? String(e.date).split('T')[0] : null;
+  const d = rawDate ? new Date(rawDate + 'T00:00:00') : null;
+  const isValid = d && !isNaN(d.getTime());
+  const day   = isValid ? d.getDate() : '?';
+  const month = isValid ? d.toLocaleString('default', { month: 'short' }) : '—';
+
+  return `<div class="event-item">
+    <div class="event-date-badge"><div class="day">${day}</div><div class="month">${month}</div></div>
+    <div class="event-info">
+      <h3>${esc(e.title)}</h3>
+      <p>${esc(e.description||'')}</p>
+      <div class="ev-meta">
+        ${e.time     ? `<span>🕐 ${esc(e.time)}</span>`     : ''}
+        ${e.location ? `<span>📍 ${esc(e.location)}</span>` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ─── INIT ───────────────────────────────────────────────── */
+navigate('home');
+</script>
+</body>
+</html>
